@@ -52,4 +52,4 @@ def dataset_limpio(nombre_dataset):
     return dataset_final
 
 
-# def formula_proporcion():
+
