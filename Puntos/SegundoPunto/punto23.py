@@ -16,7 +16,6 @@ directorio_fechas = {
     2021: ["1/01/2021", "31/12/2021"]
 }
 
-
 def seleccionar_columnas_filtrado_tiempo(name_dataset, years):
     datos = {}
     boolean_mask = name_dataset.columns.isin(['grupo_etario', 'genero', 'fecha_hecho'])
@@ -24,7 +23,10 @@ def seleccionar_columnas_filtrado_tiempo(name_dataset, years):
     select_data = name_dataset[selected_cols]
     for key, value in years.items():
         data_seleccionada = select_data[select_data.fecha_hecho.isin([value[0], value[1]])]
-        datos[key] = data_seleccionada
+        datafinal = data_seleccionada.columns.isin(['grupo_etario', 'genero'])
+        selected_cols_final = data_seleccionada.columns[datafinal]
+        select_data_final = data_seleccionada[selected_cols_final]
+        datos[key] = select_data_final
     return datos
 
 
@@ -48,3 +50,6 @@ def dataset_limpio(nombre_dataset):
         dataset_limpio_mujer = seleccionar_columnas_filtrado_mujer(value).value_counts()
         dataset_final[key] = {'Masculino': dataset_limpio_hombre, 'Femenino': dataset_limpio_mujer}
     return dataset_final
+
+
+# def formula_proporcion():
