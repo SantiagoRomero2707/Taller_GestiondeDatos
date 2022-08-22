@@ -16,6 +16,7 @@ directorio_fechas = {
     2021: ["1/01/2021", "31/12/2021"]
 }
 
+
 def seleccionar_columnas_filtrado_tiempo(name_dataset, years):
     datos = {}
     boolean_mask = name_dataset.columns.isin(['grupo_etario', 'genero', 'fecha_hecho'])
@@ -50,6 +51,5 @@ def dataset_limpio(nombre_dataset):
         dataset_limpio_mujer = seleccionar_columnas_filtrado_mujer(value).value_counts()
         dataset_final[key] = {'Masculino': dataset_limpio_hombre, 'Femenino': dataset_limpio_mujer}
     return dataset_final
-
 
 
