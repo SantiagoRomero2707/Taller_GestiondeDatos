@@ -53,3 +53,78 @@ def dataset_limpio(nombre_dataset):
     return dataset_final
 
 
+def dataset_calculo_1(dataset):
+    dataset_final = {}
+    for key, value in dataset.items():
+        valores_masculino = []
+        valores_femenino = []
+        dataframe_masculino = value.get('Masculino')
+        dataframe_femenino = value.get('Femenino')
+        tipos = ["ADOLESCENTES", "ADULTOS", "MENORES"]
+        for tipo in tipos:
+            if tipo == 'ADOLESCENTES':
+                valor_masculino = dataframe_masculino['MASCULINO'][tipo]
+                valores_masculino.append((valor_masculino.item()))
+                valor_femenino = dataframe_femenino['FEMENINO'][tipo]
+                valores_femenino.append((valor_femenino.item()))
+            elif tipo == 'ADULTOS':
+                valor_masculino = dataframe_masculino['MASCULINO'][tipo]
+                valores_masculino.append((valor_masculino.item()))
+                valor_femenino = dataframe_femenino['FEMENINO'][tipo]
+                valores_femenino.append((valor_femenino.item()))
+            elif tipo == 'MENORES':
+                valor_masculino = dataframe_masculino['MASCULINO'][tipo]
+                valores_masculino.append((valor_masculino.item()))
+                valor_femenino = dataframe_femenino['FEMENINO'][tipo]
+                valores_femenino.append((valor_femenino.item()))
+
+        total_year = sum(valores_masculino) + sum(valores_femenino)
+        dataset_final[key] = {'MASCULINO': sum(valores_masculino), 'FEMENINO': sum(valores_femenino),
+                              'TOTAL AÑO': total_year}
+    return dataset_final
+
+
+def dataset_calculo_2(dataset):
+    genders = ["Femenino", "Masculino"]
+    tipos = ["ADOLESCENTES", "ADULTOS", "MENORES"]
+    diccionario_year = {}
+    for year, value in dataset.items():
+        diccionario_tipo = {}
+        for tipo in tipos:
+            diccionario_gender = {}
+            for gender in genders:
+                dataframe = value.get(gender)
+                if tipo == 'MENORES':
+                    try:
+                        valor_int = dataframe['MASCULINO'][tipo].item()
+                        diccionario_gender[gender] = valor_int
+                    except:
+                        valor_int = dataframe['FEMENINO'][tipo].item()
+                        diccionario_gender[gender] = valor_int
+                elif tipo == 'ADOLESCENTES':
+                    try:
+                        valor_int = dataframe['MASCULINO'][tipo].item()
+                        diccionario_gender[gender] = valor_int
+                    except:
+                        valor_int = dataframe['FEMENINO'][tipo].item()
+                        diccionario_gender[gender] = valor_int
+                elif tipo == 'ADULTOS':
+                    try:
+                        valor_int = dataframe['MASCULINO'][tipo].item()
+                        diccionario_gender[gender] = valor_int
+                    except:
+                        valor_int = dataframe['FEMENINO'][tipo].item()
+                        diccionario_gender[gender] = valor_int
+
+            valor_hombre = diccionario_gender['Masculino']
+            valor_mujer = diccionario_gender['Femenino']
+            valor_total = valor_hombre + valor_mujer
+            diccionario_gender['total_año_grupo'] = valor_total
+            diccionario_tipo[tipo] = diccionario_gender
+        valor_total_tipo_adolescente = diccionario_tipo['ADOLESCENTES']['total_año_grupo']
+        valor_total_tipo_adultos = diccionario_tipo['ADULTOS']['total_año_grupo']
+        valor_total_tipo_menores = diccionario_tipo['MENORES']['total_año_grupo']
+        valor_total_final = valor_total_tipo_adolescente + valor_total_tipo_menores + valor_total_tipo_adultos
+        diccionario_tipo['valor_final'] = valor_total_final
+        diccionario_year[year] = diccionario_tipo
+    return diccionario_year
